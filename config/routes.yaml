@@ -1,3 +1,20 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+api_login_check:
+    path: /api/login_check
+
+api_v1_products:
+    path:       /api/v1/products
+    controller: App\Controller\Api\v1\ProductApiV1Controller::getProducts
+    methods:    GET
+
+api_v1_add_product:
+    path:       /api/v1/products
+    controller: App\Controller\Api\v1\ProductApiV1Controller::addProduct
+    methods:    POST
+
+api_v1_delete_product:
+    path:       /api/v1/products/{product_id}
+    controller: App\Controller\Api\v1\ProductApiV1Controller::deleteProduct
+    methods:    DELETE
