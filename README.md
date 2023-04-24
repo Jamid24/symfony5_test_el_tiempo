@@ -69,7 +69,19 @@ JSON de respuesta:
             "qty": 10,
             "active": true,
             "eliminate": false,
-            "date_add": "23-04-2023 13:42"
+            "date_add": "23-04-2023 13:42",
+            "categories": [
+                {
+                    "name": "Deportes",
+                    "description": "ctividad o ejercicio físico, sujeto a determinadas normas, en que se hace prueba, con o sin competición, de habilidad, destreza o fuerza física.",
+                    "short_description": "Recreación, pasatiempo o ejercicio físico, por lo común al aire libre."
+                },
+                {
+                    "name": "Futbol",
+                    "description": null,
+                    "short_description": null
+                }
+            ]
         }
     ]
 }

@@ -6,18 +6,22 @@ namespace App\Controller\Api\v1;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Entity\Product;
-
 
 class ProductApiV1Controller extends AbstractController
 {
     protected const REQUIRED_FIELDS = ['name', 'ean13'];
     protected const DEFAULT_HEADER = ['Content-Type: application/json'];
         
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository
+     )
     {
         $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
     }
     
     
@@ -35,6 +39,16 @@ class ProductApiV1Controller extends AbstractController
     
     protected function castDataToArrayForApi(Product $product): array
     {
+        $dataCategories = [];
+        $categories = $this->categoryRepository->getCategoriesByProductId($product->getProductId());
+        
+        foreach ($categories as $category){
+            $dataCategories[] = [
+                'name' => $category->getName(),
+                'description' => $category->getDescription(),
+                'short_description' => $category->getShortDescription()
+            ];
+        }
         return [
             'id' => $product->getProductId(),
             'name' => $product->getName(),
@@ -43,7 +57,8 @@ class ProductApiV1Controller extends AbstractController
             'qty' => $product->getQuantity(),
             'active' => $product->isIsActive(),
             'eliminate' => $product->isIsEliminate(),
-            'date_add' => $product->getDateAdd()->format('d-m-Y H:i')
+            'date_add' => $product->getDateAdd()->format('d-m-Y H:i'),
+            'categories' => $dataCategories
         ];
     }
     
